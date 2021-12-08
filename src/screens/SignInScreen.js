@@ -8,14 +8,14 @@ import {
     Button
 } from 'react-native-elements';
 
-import { AuthContext } from '../../../utils/authContext';
+import { AuthContext } from '../../context';
 
 const SignInScreen = ({ navigation }) => {
     const [emailAddress, setemailAddress] = useState('');
     const [password, setPassword] = useState('');
     const [SignUpErrors, setSignUpErrors] = useState({});
 
-    const { signIn, signUp } = useContext(AuthContext);
+    const { signIn } = useContext(AuthContext);
 
     const handleSignIn = () => {
         // https://indicative.adonisjs.com
@@ -41,13 +41,7 @@ const SignInScreen = ({ navigation }) => {
                 console.log('success sign in');
                 signIn({ emailAddress, password });
             })
-            .catch(err => {
-                const formatError = {};
-                err.forEach(err => {
-                    formatError[err.field] = err.message;
-                });
-                setSignUpErrors(formatError);
-            });
+            .catch(err => console.log(err));
     };
 
     return (
@@ -74,7 +68,7 @@ const SignInScreen = ({ navigation }) => {
                     title="Sign in"
                     onPress={() => handleSignIn()}
                 />
-                <Text style={{ marginLeft: 100 }} onPress={() => signUp()}>
+                <Text style={{ marginLeft: 100 }} onPress={() => {navigation.navigate("Signup")}}>
                     No Acount? Sign Up
                 </Text>
             </Card>
